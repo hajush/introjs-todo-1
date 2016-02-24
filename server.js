@@ -11,9 +11,11 @@ var todoRoutes = require('./routes/todos');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
+app.set('view engine', 'ejs');
+app.use(express.static('public'));
 
 app.get('/', function(req, res){
-  res.json({message: 'it is working!'})
+  res.render('index')
 })
 
 app.use('/api', todoRoutes);
