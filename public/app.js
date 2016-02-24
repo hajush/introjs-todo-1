@@ -60,6 +60,11 @@ var TodoForm = React.createClass({
     var dueDate = this.state.dueDate;
     this.props.handleSubmit({
       name: name, description: description, dueDate: dueDate
+    });
+    this.setState({
+      name: '',
+      description: '',
+      dueDate: ''
     })
   },
   render: function() {
