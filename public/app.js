@@ -1,24 +1,30 @@
-var TodosList = React.createClass({
+var TodoList = React.createClass({
   render: function() {
     var self = this;
-    var todos = this.props.todos.map(function(t){
+
+    var todosList = this.props.todos.map(function(t){
       return (
-        <div className="panel panel-default" key={t._id}>
+        <div className="panel panel-default">
+          <div className="panel-header">
+           { t.name }
+          </div>
           <div className="panel-body">
-            <h3> { t.name }  </h3>
-            <p> { t.description } </p>
+            { t.description }
           </div>
           <div className="panel-footer">
-            <p> Due: { t.dueDate } </p>
-            <button type="button" className="btn btn-default" onClick={self.props.handleComplete.bind(this, t)}>complete</button>
+            {t.dueDate}
+            <button className="btn btn-warning"
+              onClick={self.props.handleDelete.bind(this, t._id)}>
+              delete 
+            </button>
+
           </div>
         </div>
         )
-    });
-    return (
+    })
+    return ( 
       <div>
-        <h2> My list of todos </h2>
-        { todos }
+        <p> { todosList } </p>
       </div>
       )
   }
@@ -26,105 +32,112 @@ var TodosList = React.createClass({
 
 var TodoForm = React.createClass({
   getInitialState: function() {
-    return {name: '', description: '', dueDate: ''};
+    return {
+      name: '',
+      description: '',
+      dueDate: ''
+    }
   },
   handleNameChange: function(e) {
-    this.setState({name: e.target.value});
+    this.setState({
+      name: e.target.value
+    })
   },
   handleDescriptionChange: function(e) {
-    this.setState({description: e.target.value});
+    this.setState({
+      description: e.target.value
+    })
   },
   handleDueDateChange: function(e) {
-    this.setState({dueDate: e.target.value});
+    this.setState({
+      dueDate: e.target.value
+    })
   },
-  handleSubmit: function(e){
-   e.preventDefault();
-    var name = this.state.name.trim();
-    var description = this.state.description.trim();
-    var dueDate = this.state.dueDate.trim();
-    this.props.onTodoSubmit({name: name, description: description, dueDate: dueDate});
-    this.setState({ name: '', description: '', dueDate: ''});
+  handleForm: function(e){
+    e.preventDefault();
+    var name = this.state.name;
+    var description = this.state.description;
+    var dueDate = this.state.dueDate;
+    this.props.handleSubmit({
+      name: name, description: description, dueDate: dueDate
+    })
   },
   render: function() {
     return (
       <div>
-        <form onSubmit={this.handleSubmit} action="" method="" role="form">
-          <legend>new todo</legend>
+        <form onSubmit={this.handleForm} method="" role="form">
+          <legend>Add New Todo</legend>
         
           <div className="form-group">
-            <label htmlFor="">name</label>
-            <input type="text" value={this.state.name}
-            onChange={this.handleNameChange}className="form-control" id=""/>
-          </div>
-        
-          <div className="form-group">
-            <label htmlFor="">description</label>
-            <input type="text" value={this.state.description}
-          onChange={this.handleDescriptionChange} className="form-control" id=""/>
+            <input onChange={this.handleNameChange} value={this.state.name} type="text" className="form-control" id="" placeholder="name"/>
           </div>
 
           <div className="form-group">
-            <label htmlFor="">due date</label>
-            <input type="text" value={this.state.dueDate}
-          onChange={this.handleDueDateChange}className="form-control" id=""/>
+            <input onChange={this.handleDescriptionChange} value={this.state.description} type="text" className="form-control" id="" placeholder="description"/>
           </div>
-          
+
+          <div className="form-group">
+            <input onChange={this.handleDueDateChange} value={this.state.dueDate} type="date" className="form-control" id="" placeholder="due date"/>
+          </div>
+        
           <button type="submit" className="btn btn-primary">Submit</button>
         </form>
       </div>
-
       )
   }
-})
-
+});
 
 var App = React.createClass({
+
   getInitialState: function() {
     return {
-      todos : []
-      }
+      todos: []
+    }
   },
-  onTodoSubmit: function(todo){
-    var todo = todo;
-    $.ajax({
-      url: '/api/todos',
-      type: 'POST',
-      data: todo
-    }).done(function(todo){
-      console.log('sending todo to server', todo)
-      this.loadTodosFromServer()
-    }.bind(this))
-  },
+
   loadTodosFromServer: function() {
+    var self = this;
     $.ajax({
       url: '/api/todos',
       method: 'GET'
-    }).done(function(todos){
-      console.log(todos);
-      this.setState({todos: todos})
-    }.bind(this))
+    }).done(function(data){
+        self.setState({
+          todos: data
+        })
+    });
   },
-  handleComplete: function(todo) {
-    var id = todo._id;
+  handleSubmit: function(todo) {
+    var self = this;
     $.ajax({
-      url: 'api/todos/' + id,
+      url: '/api/todos',
+      method: 'POST',
+      data: todo
+    }).done(function(){
+      self.loadTodosFromServer();
+      console.log('posted todo to server!')
+    })
+  },
+  handleDelete: function(id) {
+    var id = id;
+    var self = this;
+    $.ajax({
+      url: '/api/todos/' + id,
       method: 'DELETE'
     }).done(function(){
-      console.log('deleteing todo')
-      this.loadTodosFromServer();
-    }.bind(this))
+      console.log('deleted todo');
+      self.loadTodosFromServer();
+    })
   },
-  componentDidMount: function(){
+  componentDidMount: function() {
     this.loadTodosFromServer();
   },
   render: function() {
-    return (
+    return ( 
       <div>
-        <TodosList 
-        todos={this.state.todos}
-        handleComplete={this.handleComplete}
-        />
-        <TodoForm onTodoSubmit={this.onTodoSubmit}/>
+        <h3> Hello World! </h3>
+        <TodoList handleDelete={ this.handleDelete } 
+                  todos={ this.state.todos } />
+        <TodoForm handleSubmit={this.handleSubmit}/>
       </div>
       )
   }
