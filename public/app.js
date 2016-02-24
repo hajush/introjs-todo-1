@@ -9,6 +9,23 @@ var Todos = React.createClass({
 });
 
 var App = React.createClass({
+  getInitialState: function() {
+    return {
+      todos : []
+      }
+  },
+  loadTodosFromServer: function() {
+    $.ajax({
+      url: '/api/todos',
+      method: 'GET'
+    }).done(function(todos){
+      console.log(todos);
+      this.setState({todos: todos})
+    }.bind(this))
+  },
+  componentDidMount: function(){
+    this.loadTodosFromServer();
+  },
   render: function() {
     return (
       <div>
