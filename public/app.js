@@ -1,8 +1,22 @@
 var Todos = React.createClass({
   render: function() {
+    var todos = this.props.todos.map(function(t){
+      return (
+        <div className="panel panel-default" key={t._id}>
+          <div className="panel-body">
+            <h3> { t.name }  </h3>
+            <p> { t.description } </p>
+          </div>
+          <div className="panel-footer">
+            <p> Due: { t.dueDate } </p>
+          </div>
+        </div>
+        )
+    });
     return (
       <div>
         <h2> My list of todos </h2>
+        { todos }
       </div>
       )
   }
@@ -29,7 +43,7 @@ var App = React.createClass({
   render: function() {
     return (
       <div>
-        <Todos/>
+        <Todos todos={this.state.todos}/>
       </div>
       )
   }
