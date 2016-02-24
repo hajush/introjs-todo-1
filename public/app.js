@@ -1,5 +1,6 @@
-var Todos = React.createClass({
+var TodosList = React.createClass({
   render: function() {
+    var self = this;
     var todos = this.props.todos.map(function(t){
       return (
         <div className="panel panel-default" key={t._id}>
@@ -9,6 +10,7 @@ var Todos = React.createClass({
           </div>
           <div className="panel-footer">
             <p> Due: { t.dueDate } </p>
+            <button type="button" className="btn btn-default" onClick={self.props.handleComplete.bind(this, t)}>complete</button>
           </div>
         </div>
         )
@@ -21,6 +23,8 @@ var Todos = React.createClass({
       )
   }
 });
+
+
 
 var App = React.createClass({
   getInitialState: function() {
@@ -37,13 +41,26 @@ var App = React.createClass({
       this.setState({todos: todos})
     }.bind(this))
   },
+  handleComplete: function(todo) {
+    var id = todo._id;
+    $.ajax({
+      url: 'api/todos/' + id,
+      method: 'DELETE'
+    }).done(function(){
+      console.log('deleteing todo')
+      this.loadTodosFromServer();
+    }.bind(this))
+  },
   componentDidMount: function(){
     this.loadTodosFromServer();
   },
   render: function() {
     return (
       <div>
-        <Todos todos={this.state.todos}/>
+        <TodosList 
+        todos={this.state.todos}
+        handleComplete={this.handleComplete}
+        />
       </div>
       )
   }
