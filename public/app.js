@@ -24,6 +24,58 @@ var TodosList = React.createClass({
   }
 });
 
+var TodoForm = React.createClass({
+  getInitialState: function() {
+    return {name: '', description: '', dueDate: ''};
+  },
+  handleNameChange: function(e) {
+    this.setState({name: e.target.value});
+  },
+  handleDescriptionChange: function(e) {
+    this.setState({description: e.target.value});
+  },
+  handleDueDateChange: function(e) {
+    this.setState({dueDate: e.target.value});
+  },
+  handleSubmit: function(e){
+   e.preventDefault();
+    var name = this.state.name.trim();
+    var description = this.state.description.trim();
+    var dueDate = this.state.dueDate.trim();
+    this.props.onTodoSubmit({name: name, description: description, dueDate: dueDate});
+    this.setState({ name: '', description: '', dueDate: ''});
+  },
+  render: function() {
+    return (
+      <div>
+        <form onSubmit={this.handleSubmit} action="" method="" role="form">
+          <legend>new todo</legend>
+        
+          <div className="form-group">
+            <label htmlFor="">name</label>
+            <input type="text" value={this.state.name}
+            onChange={this.handleNameChange}className="form-control" id=""/>
+          </div>
+        
+          <div className="form-group">
+            <label htmlFor="">description</label>
+            <input type="text" value={this.state.description}
+          onChange={this.handleDescriptionChange} className="form-control" id=""/>
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="">due date</label>
+            <input type="text" value={this.state.dueDate}
+          onChange={this.handleDueDateChange}className="form-control" id=""/>
+          </div>
+          
+          <button type="submit" className="btn btn-primary">Submit</button>
+        </form>
+      </div>
+
+      )
+  }
+})
 
 
 var App = React.createClass({
@@ -31,6 +83,17 @@ var App = React.createClass({
     return {
       todos : []
       }
+  },
+  onTodoSubmit: function(todo){
+    var todo = todo;
+    $.ajax({
+      url: '/api/todos',
+      type: 'POST',
+      data: todo
+    }).done(function(todo){
+      console.log('sending todo to server', todo)
+      this.loadTodosFromServer()
+    }.bind(this))
   },
   loadTodosFromServer: function() {
     $.ajax({
@@ -61,6 +124,7 @@ var App = React.createClass({
         todos={this.state.todos}
         handleComplete={this.handleComplete}
         />
+        <TodoForm onTodoSubmit={this.onTodoSubmit}/>
       </div>
       )
   }
