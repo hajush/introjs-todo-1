@@ -6,7 +6,7 @@ var router = express.Router();
 
 var mongoose = require('mongoose');
 
-var mongodbUri = process.env.MONGOLAB_URI || 'mongodb://localhost/todos2';
+var mongodbUri = process.env.MONGODB_URI || 'mongodb://localhost/todos2';
 var mongooseUri = uriUtil.formatMongoose(mongodbUri);
 var options = {
   server: { socketOptions: { keepAlive: 1, connectTimeoutMS: 30000 } },
@@ -23,13 +23,13 @@ app.set('view engine', 'ejs');
 app.use(express.static('public'));
 
 app.get('/', function(req, res){
-  res.render('index')
-})
+  res.render('index');
+});
 
 app.use('/api', todoRoutes);
 
 var port = process.env.PORT || 3000;
 
 app.listen(port, function(req, res){
-  console.log('listening on port: ' + port)
+  console.log('listening on port: ' + port);
 });
