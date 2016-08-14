@@ -1,10 +1,18 @@
 var express = require('express');
 var bodyParser = require('body-parser');
+var uriUtil = require('mongodb-uri');
 var app = express();
 var router = express.Router();
 
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/todos2');
+
+var mongodbUri = process.env.MONGOLAB_URI || 'mongodb://localhost/todos2';
+var mongooseUri = uriUtil.formatMongoose(mongodbUri);
+var options = {
+  server: { socketOptions: { keepAlive: 1, connectTimeoutMS: 30000 } },
+  replset: { socketOptions: { keepAlive: 1, connectTimeoutMS: 30000 } }
+};
+mongoose.connect(mongooseUri, options);
 var Todo = require('./models/todo');
 var todoRoutes = require('./routes/todos');
 
