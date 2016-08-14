@@ -3,7 +3,7 @@ var router = express.Router();
 var Todo = require('../models/todo');
 
 router.use(function(req, res, next){
-  console.log('something is happeneing!');
+  console.log('something is happening!');
   res.setHeader('Content-Type', 'application/json');
   next();
 });
