@@ -1,18 +1,22 @@
 {
   "name": "react-todo",
   "version": "1.0.0",
-  "description": "//MOCK OBJECT FOR TODO {   \"name\": \"Learn React\",   \"id\": 1,   \"dueDate\": \"12/12/16\",   \"description\": \"self explanatory...\" }",
+  "description": "A react based Todo app",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha --reporter spec test/*.js",
     "start": "node server.js"
   },
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "body-parser": "^1.15.0",
     "ejs": "^2.4.1",
     "express": "^4.13.4",
     "mongoose": "^4.4.4"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^3.0.2"
   }
 }
