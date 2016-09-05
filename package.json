@@ -7,7 +7,7 @@
     "test": "mocha --reporter spec test/*.js",
     "start": "node server.js"
   },
-  "author": "",
+  "author": "Harold Shinsato",
   "license": "MIT",
   "dependencies": {
     "body-parser": "^1.15.0",

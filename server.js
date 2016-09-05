@@ -5,6 +5,7 @@ var app = express();
 var router = express.Router();
 
 var mongoose = require('mongoose');
+mongoose.Promise = global.Promise;
 
 var mongodbUri = process.env.MONGODB_URI || 'mongodb://localhost/todos2';
 var mongooseUri = uriUtil.formatMongoose(mongodbUri);
