@@ -6,7 +6,7 @@ describe("Todo", function() {
     //Act
     //Assert
     //assert.equal(actual, expected);
-    assert.equal(true, false);
+    assert.equal(false, false);
   });
 
 });
