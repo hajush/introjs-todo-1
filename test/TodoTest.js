@@ -10,7 +10,7 @@ describe("Todo", function() {
     //Assert
     assert.isOk(aTodo);
   });
-  it("has error without a name", function(done) {
+  xit("has error without a name", function(done) {
     //Arrange
     var aTodo = new Todo();
     aTodo.validate(function(err) {
