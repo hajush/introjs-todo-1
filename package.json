@@ -20,7 +20,10 @@
   },
   "devDependencies": {
     "chai": "^3.5.0",
+    "cheerio": "^0.22.0",
     "eslint": "^3.17.1",
+    "html-parser": "^0.10.0",
+    "htmlparser": "^1.7.7",
     "mocha": "^3.0.2"
   }
 }
