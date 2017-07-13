@@ -1,6 +1,9 @@
 {
   "name": "react-todo",
   "version": "1.0.0",
+  "engines": {
+    "node": "8.1.4"
+  },
   "description": "A react based Todo app",
   "main": "server.js",
   "scripts": {
