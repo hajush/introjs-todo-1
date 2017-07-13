@@ -20,13 +20,13 @@ var TodoList = React.createClass({
 
           </div>
         </div>
-        )
-    })
+      );
+    });
     return (
       <div>
         <p> { todosList } </p>
       </div>
-      )
+    );
   }
 });
 
@@ -36,22 +36,22 @@ var TodoForm = React.createClass({
       name: '',
       description: '',
       dueDate: ''
-    }
+    };
   },
   handleNameChange: function(e) {
     this.setState({
       name: e.target.value
-    })
+    });
   },
   handleDescriptionChange: function(e) {
     this.setState({
       description: e.target.value
-    })
+    });
   },
   handleDueDateChange: function(e) {
     this.setState({
       dueDate: e.target.value
-    })
+    });
   },
   handleForm: function(e){
     e.preventDefault();
@@ -65,7 +65,7 @@ var TodoForm = React.createClass({
       name: '',
       description: '',
       dueDate: ''
-    })
+    });
   },
   render: function() {
     return (
@@ -88,7 +88,7 @@ var TodoForm = React.createClass({
           <button type="submit" className="btn btn-primary">Submit</button>
         </form>
       </div>
-      )
+    );
   }
 });
 
@@ -97,7 +97,7 @@ var App = React.createClass({
   getInitialState: function() {
     return {
       todos: []
-    }
+    };
   },
 
   loadTodosFromServer: function() {
@@ -106,9 +106,9 @@ var App = React.createClass({
       url: '/api/todos',
       method: 'GET'
     }).done(function(data){
-        self.setState({
-          todos: data
-        })
+      self.setState({
+        todos: data
+      });
     });
   },
   handleSubmit: function(todo) {
@@ -119,19 +119,16 @@ var App = React.createClass({
       data: todo
     }).done(function(){
       self.loadTodosFromServer();
-      console.log('posted todo to server!')
-    })
+    });
   },
   handleDelete: function(id) {
-    var id = id;
     var self = this;
     $.ajax({
       url: '/api/todos/' + id,
       method: 'DELETE'
     }).done(function(){
-      console.log('deleted todo');
       self.loadTodosFromServer();
-    })
+    });
   },
   componentDidMount: function() {
     this.loadTodosFromServer();
@@ -144,7 +141,7 @@ var App = React.createClass({
                   todos={ this.state.todos } />
         <TodoForm handleSubmit={this.handleSubmit}/>
       </div>
-    )
+    );
   }
 });
 

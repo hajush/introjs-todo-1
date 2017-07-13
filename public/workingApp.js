@@ -13,22 +13,22 @@ var TodosList = React.createClass({
             <button type="button" className="btn btn-default pull-right" onClick={self.props.handleComplete.bind(this, t)}>complete</button>
           </div>
         </div>
-        )
+      );
     });
     return (
       <div>
         <h2> My list of todos </h2>
         { todos }
       </div>
-      )
+    );
   }
 });
 
 var TodoForm = React.createClass({
   getInitialState: function() {
     return {
-      name: '', 
-      description: '', 
+      name: '',
+      description: '',
       dueDate: ''
     };
   },
@@ -42,7 +42,7 @@ var TodoForm = React.createClass({
     this.setState({dueDate: e.target.value});
   },
   handleSubmit: function(e){
-   e.preventDefault();
+    e.preventDefault();
     var name = this.state.name.trim();
     var description = this.state.description.trim();
     var dueDate = this.state.dueDate.trim();
@@ -54,13 +54,13 @@ var TodoForm = React.createClass({
       <div>
         <form onSubmit={this.handleSubmit}>
           <legend>new todo</legend>
-        
+
           <div className="form-group">
             <label htmlFor="">name</label>
             <input type="text" value={this.state.name}
             onChange={this.handleNameChange} className="form-control" id=""/>
           </div>
-        
+
           <div className="form-group">
             <label htmlFor="">description</label>
             <input type="text" value={this.state.description}
@@ -72,41 +72,36 @@ var TodoForm = React.createClass({
             <input type="date" value={this.state.dueDate}
           onChange={this.handleDueDateChange} className="form-control" id=""/>
           </div>
-          
+
           <button type="" className="btn btn-primary">Submit</button>
         </form>
       </div>
-
-      )
+    );
   }
-})
-
+});
 
 var App = React.createClass({
   getInitialState: function() {
     return {
       todos : []
-      }
+    };
   },
   onTodoSubmit: function(todo){
-    var todo = todo;
     $.ajax({
       url: '/api/todos',
       type: 'POST',
       data: todo
     }).done(function(todo){
-      console.log('sending todo to server', todo)
-      this.loadTodosFromServer()
-    }.bind(this))
+      this.loadTodosFromServer();
+    }.bind(this));
   },
   loadTodosFromServer: function() {
     $.ajax({
       url: '/api/todos',
       method: 'GET'
     }).done(function(todos){
-      console.log(todos);
-      this.setState({todos: todos})
-    }.bind(this))
+      this.setState({todos: todos});
+    }.bind(this));
   },
   handleComplete: function(todo) {
     var id = todo._id;
@@ -114,9 +109,8 @@ var App = React.createClass({
       url: 'api/todos/' + id,
       method: 'DELETE'
     }).done(function(){
-      console.log('deleteing todo')
       this.loadTodosFromServer();
-    }.bind(this))
+    }.bind(this));
   },
   componentDidMount: function(){
     this.loadTodosFromServer();
@@ -124,13 +118,13 @@ var App = React.createClass({
   render: function() {
     return (
       <div>
-        <TodosList 
+        <TodosList
         todos={this.state.todos}
         handleComplete={this.handleComplete}
         />
         <TodoForm onTodoSubmit={this.onTodoSubmit}/>
       </div>
-      )
+    );
   }
 });
 

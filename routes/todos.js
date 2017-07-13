@@ -20,20 +20,20 @@ router.route('/todos')
 
     todo.save(function(err, todo){
       if(err){
-        res.send(err)
+        res.send(err);
       } else {
-        res.json(todo)
+        res.json(todo);
       }
-    })
+    });
   })
-  .get(function(req, res){
+  .get(function(req, res, next){
     Todo.find(function(err, todos){
       if(err){
         return next(err);
       } else {
-        res.json(todos)
+        res.json(todos);
       }
-    })
+    });
   });
 
 router.route('/todos/:todo_id')
@@ -44,12 +44,12 @@ router.route('/todos/:todo_id')
       } else {
         res.json(todo);
       }
-    })
+    });
   })
   .put(function(req, res){
     Todo.findById(req.params.todo_id, function(err, todo){
       if(err){
-        console.log(err)
+        console.log(err);
       } else {
         todo.name = req.body.name || todo.name;
         todo.dueDate = req.body.dueDate || todo.dueDate;
@@ -57,22 +57,22 @@ router.route('/todos/:todo_id')
 
         todo.save(function(err){
           if(err){
-            console.log(err)
+            console.log(err);
           } else {
-            res.json({title: "todo updated"})
+            res.json({title: "todo updated"});
           }
-        })
+        });
       }
-    })
+    });
   })
   .delete(function(req, res){
     Todo.remove({_id: req.params.todo_id}, function(err, todo){
       if(err){
-        console.log(err)
+        console.log(err);
       } else {
-        res.json({title: 'todo was successfully deleted!'})
+        res.json({title: 'todo was successfully deleted!'});
       }
-    })
+    });
   });
 
 module.exports = router;
