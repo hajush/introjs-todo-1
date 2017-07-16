@@ -2,12 +2,11 @@ var express = require('express');
 var router = express.Router();
 var Todo = require('../models/todo');
 
-router.use(function(req, res, next){
-  console.log('something is happening!');
+router.use(function(req, res, next) {
+  console.log('something is happening!'); // eslint-disable-line no-console
   res.setHeader('Content-Type', 'application/json');
   next();
 });
-
 
 router.route('/todos')
   .post(function(req, res){
@@ -37,27 +36,27 @@ router.route('/todos')
   });
 
 router.route('/todos/:todo_id')
-  .get(function(req, res){
+  .get(function(req, res, next){
     Todo.findById(req.params.todo_id, function(err, todo){
-      if(err){
-        console.log(err);
+      if (err){
+        next(err);
       } else {
         res.json(todo);
       }
     });
   })
-  .put(function(req, res){
+  .put(function(req, res, next) {
     Todo.findById(req.params.todo_id, function(err, todo){
-      if(err){
-        console.log(err);
+      if (err) {
+        next(err);
       } else {
         todo.name = req.body.name || todo.name;
         todo.dueDate = req.body.dueDate || todo.dueDate;
         todo.description = req.body.description || todo.description;
 
         todo.save(function(err){
-          if(err){
-            console.log(err);
+          if (err) {
+            next(err);
           } else {
             res.json({title: "todo updated"});
           }
@@ -65,10 +64,10 @@ router.route('/todos/:todo_id')
       }
     });
   })
-  .delete(function(req, res){
+  .delete(function(req, res, next) {
     Todo.remove({_id: req.params.todo_id}, function(err, todo){
-      if(err){
-        console.log(err);
+      if (err){
+        next(err);
       } else {
         res.json({title: 'todo was successfully deleted!'});
       }

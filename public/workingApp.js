@@ -58,19 +58,21 @@ var TodoForm = React.createClass({
           <div className="form-group">
             <label htmlFor="">name</label>
             <input type="text" value={this.state.name}
-            onChange={this.handleNameChange} className="form-control" id=""/>
+              onChange={this.handleNameChange} className="form-control" id=""/>
           </div>
 
           <div className="form-group">
             <label htmlFor="">description</label>
             <input type="text" value={this.state.description}
-          onChange={this.handleDescriptionChange} className="form-control" id=""/>
+              onChange={this.handleDescriptionChange}
+              className="form-control" id=""/>
           </div>
 
           <div className="form-group">
             <label htmlFor="">due date</label>
             <input type="date" value={this.state.dueDate}
-          onChange={this.handleDueDateChange} className="form-control" id=""/>
+              onChange={this.handleDueDateChange}
+              className="form-control" id=""/>
           </div>
 
           <button type="" className="btn btn-primary">Submit</button>
@@ -119,8 +121,8 @@ var App = React.createClass({
     return (
       <div>
         <TodosList
-        todos={this.state.todos}
-        handleComplete={this.handleComplete}
+          todos={this.state.todos}
+          handleComplete={this.handleComplete}
         />
         <TodoForm onTodoSubmit={this.onTodoSubmit}/>
       </div>

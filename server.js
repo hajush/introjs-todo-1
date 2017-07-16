@@ -1,3 +1,4 @@
+/* eslint no-console: 0 */
 var express = require('express');
 var bodyParser = require('body-parser');
 var uriUtil = require('mongodb-uri');

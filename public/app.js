@@ -6,7 +6,7 @@ var TodoList = React.createClass({
       return (
         <div className="panel panel-default">
           <div className="panel-header">
-           { t.name }
+            { t.name }
           </div>
           <div className="panel-body">
             { t.description }
@@ -138,7 +138,7 @@ var App = React.createClass({
       <div>
         <h3> Hello World! </h3>
         <TodoList handleDelete={ this.handleDelete }
-                  todos={ this.state.todos } />
+          todos={ this.state.todos } />
         <TodoForm handleSubmit={this.handleSubmit}/>
       </div>
     );
