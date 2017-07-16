@@ -12,12 +12,10 @@ var TodoList = React.createClass({
             { t.description }
           </div>
           <div className="panel-footer">
-            {t.dueDate}
             <button className="btn btn-warning"
               onClick={self.props.handleDelete.bind(this, t._id)}>
               delete
             </button>
-
           </div>
         </div>
       );
@@ -34,8 +32,7 @@ var TodoForm = React.createClass({
   getInitialState: function() {
     return {
       name: '',
-      description: '',
-      dueDate: ''
+      description: ''
     };
   },
   handleNameChange: function(e) {
@@ -48,23 +45,16 @@ var TodoForm = React.createClass({
       description: e.target.value
     });
   },
-  handleDueDateChange: function(e) {
-    this.setState({
-      dueDate: e.target.value
-    });
-  },
   handleForm: function(e){
     e.preventDefault();
     var name = this.state.name;
     var description = this.state.description;
-    var dueDate = this.state.dueDate;
     this.props.handleSubmit({
-      name: name, description: description, dueDate: dueDate
+      name: name, description: description
     });
     this.setState({
       name: '',
-      description: '',
-      dueDate: ''
+      description: ''
     });
   },
   render: function() {
@@ -79,10 +69,6 @@ var TodoForm = React.createClass({
 
           <div className="form-group">
             <input onChange={this.handleDescriptionChange} value={this.state.description} type="text" className="form-control" id="" placeholder="description"/>
-          </div>
-
-          <div className="form-group">
-            <input onChange={this.handleDueDateChange} value={this.state.dueDate} type="date" className="form-control" id="" placeholder="due date"/>
           </div>
 
           <button type="submit" className="btn btn-primary">Submit</button>

@@ -14,7 +14,6 @@ router.route('/todos')
     var todo = new Todo();
 
     todo.name = req.body.name;
-    todo.dueDate = req.body.dueDate;
     todo.description = req.body.description;
 
     todo.save(function(err, todo){
@@ -51,7 +50,6 @@ router.route('/todos/:todo_id')
         next(err);
       } else {
         todo.name = req.body.name || todo.name;
-        todo.dueDate = req.body.dueDate || todo.dueDate;
         todo.description = req.body.description || todo.description;
 
         todo.save(function(err){
