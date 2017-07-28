@@ -14,7 +14,7 @@ var TodoList = React.createClass({
           <div className="panel-footer">
             <button className="btn btn-warning"
               onClick={self.props.handleDelete.bind(this, t._id)}>
-              I am done
+              delete
             </button>
           </div>
         </div>
@@ -50,7 +50,7 @@ var TodoForm = React.createClass({
     var name = this.state.name;
     var description = this.state.description;
     this.props.handleSubmit({
-      name: name, description: description, done: false
+      name: name, description: description
     });
     this.setState({
       name: '',
@@ -82,8 +82,7 @@ var App = React.createClass({
 
   getInitialState: function() {
     return {
-      todos: [],
-      doneTodos: []
+      todos: []
     };
   },
 
@@ -93,11 +92,8 @@ var App = React.createClass({
       url: '/api/todos',
       method: 'GET'
     }).done(function(data){
-      let undoneTD=data.filter((todo) => !todo.done);
-      let doneTD=data.filter((todo) => todo.done);
       self.setState({
-        todos: undoneTD,
-        doneTodos: doneTD
+        todos: data
       });
     });
   },
@@ -115,8 +111,7 @@ var App = React.createClass({
     var self = this;
     $.ajax({
       url: '/api/todos/' + id,
-      method: 'PUT',
-      data: {done: true}
+      method: 'DELETE'
     }).done(function(){
       self.loadTodosFromServer();
     });
@@ -127,16 +122,9 @@ var App = React.createClass({
   render: function() {
     return (
       <div>
-        <div className="col-sm-6">
-          <h3> My TODOs </h3>
-          <TodoList handleDelete={ this.handleDelete }
-            todos={ this.state.todos } />
-        </div>
-        <div className="col-sm-6">
-          <h3> What I Finished </h3>
-          <TodoList handleDelete={ this.handleDelete }
-            todos={ this.state.doneTodos } />
-        </div>
+        <h3> Hello World! </h3>
+        <TodoList handleDelete={ this.handleDelete }
+          todos={ this.state.todos } />
         <TodoForm handleSubmit={this.handleSubmit}/>
       </div>
     );
