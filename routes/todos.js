@@ -15,6 +15,7 @@ router.route('/todos')
 
     todo.name = req.body.name;
     todo.description = req.body.description;
+    todo.done = req.body.done;
 
     todo.save(function(err, todo){
       if(err){
@@ -51,6 +52,7 @@ router.route('/todos/:todo_id')
       } else {
         todo.name = req.body.name || todo.name;
         todo.description = req.body.description || todo.description;
+        todo.done = req.body.done || todo.done;
 
         todo.save(function(err){
           if (err) {
