@@ -122,7 +122,7 @@ var App = React.createClass({
   render: function() {
     return (
       <div>
-        <h3> Hello World! </h3>
+        <h3> My Stuff To Do </h3>
         <TodoList handleDelete={ this.handleDelete }
           todos={ this.state.todos } />
         <TodoForm handleSubmit={this.handleSubmit}/>
